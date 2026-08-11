@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>GuildMatch | Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#070914;
+color:white;
+min-height:100vh;
+}
+
+header{
+height:70px;
+background:#090b14;
+border-bottom:1px solid #1e2333;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 20px;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.logo{
+font-size:21px;
+font-weight:900;
+}
+
+.logo span{
+color:#ffb300;
+}
+
+.logout{
+border:1px solid #34394b;
+background:#111523;
+color:white;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.logout:hover{
+border-color:#ffb300;
+color:#ffb300;
+}
+
+main{
+max-width:1100px;
+margin:auto;
+padding:30px 20px;
+}
+
+.loading{
+text-align:center;
+padding:60px 20px;
+color:#888;
+}
+
+.welcome{
+margin-bottom:25px;
+}
+
+.welcome h1{
+font-size:clamp(28px,6vw,45px);
+margin-bottom:8px;
+}
+
+.welcome h1 span{
+color:#ffb300;
+}
+
+.welcome p{
+color:#888;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.card{
+background:#101321;
+border:1px solid #22283a;
+border-radius:18px;
+padding:25px;
+}
+
+.card h2{
+font-size:20px;
+margin-bottom:20px;
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:25px;
+}
+
+.avatar{
+width:65px;
+height:65px;
+border-radius:50%;
+background:#ffb300;
+color:#111;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:27px;
+font-weight:bold;
+}
+
+.profile p{
+color:#888;
+font-size:13px;
+}
+
+.info{
+display:grid;
+gap:10px;
+}
+
+.info-row{
+display:flex;
+justify-content:space-between;
+gap:15px;
+padding:13px;
+background:#080a12;
+border-radius:8px;
+}
+
+.info-row span:first-child{
+color:#888;
+}
+
+.info-row span:last-child{
+color:#ffb300;
+font-weight:bold;
+text-align:right;
+word-break:break-word;
+}
+
+.status-box{
+background:#080a12;
+padding:20px;
+border-radius:12px;
+margin-bottom:18px;
+text-align:center;
+}
+
+.status-dot{
+display:inline-block;
+width:10px;
+height:10px;
+border-radius:50%;
+background:#35e27b;
+margin-right:7px;
+}
+
+.status-text{
+color:#35e27b;
+font-weight:bold;
+}
+
+.match-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:10px;
+background:#ffb300;
+color:#111;
+font-weight:bold;
+cursor:pointer;
+font-size:15px;
+}
+
+.match-btn:hover{
+background:#ffc333;
+}
+
+.match-btn.stop{
+background:#ff5c5c;
+color:white;
+}
+
+.match-btn:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+.result{
+display:none;
+margin-top:18px;
+padding:20px;
+background:#080a12;
+border-radius:10px;
+text-align:center;
+border:1px solid #292f42;
+}
+
+.matched-player{
+margin-top:15px;
+padding:15px;
+background:#101321;
+border-radius:10px;
+border:1px solid #35e27b;
+}
+
+.matched-player h3{
+color:#ffb300;
+margin-bottom:8px;
+}
+
+.matched-player p{
+color:#aaa;
+margin:5px 0;
+font-size:13px;
+}
+
+.open-game{
+display:block;
+width:100%;
+margin-top:15px;
+padding:13px;
+border-radius:8px;
+background:#35e27b;
+color:#07100a;
+text-decoration:none;
+font-weight:bold;
+}
+
+.whatsapp-box{
+margin-top:20px;
+padding-top:20px;
+border-top:1px solid #252b3d;
+}
+
+.whatsapp-box h3{
+margin-bottom:8px;
+}
+
+.whatsapp-box p{
+color:#888;
+font-size:13px;
+line-height:1.5;
+margin-bottom:12px;
+}
+
+.whatsapp-btn{
+width:100%;
+padding:13px;
+border:none;
+border-radius:9px;
+background:#25D366;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-bottom:8px;
+}
+
+.whatsapp-btn:hover{
+opacity:.9;
+}
+
+.group-btn{
+width:100%;
+padding:13px;
+border:none;
+border-radius:9px;
+background:#128C7E;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-bottom:8px;
+}
+
+.copy-btn{
+width:100%;
+padding:12px;
+border:1px solid #30364a;
+border-radius:9px;
+background:#111523;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.quick-link{
+display:block;
+text-decoration:none;
+color:white;
+background:#080a12;
+border:1px solid #202638;
+padding:15px;
+border-radius:9px;
+margin-top:20px;
+text-align:center;
+}
+
+.quick-link:hover{
+border-color:#ffb300;
+color:#ffb300;
+}
+
+.error-box{
+background:#200e0e;
+border:1px solid #7a2525;
+color:#ff8585;
+padding:15px;
+border-radius:10px;
+line-height:1.5;
+}
+
+@media(max-width:750px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+main{
+padding:25px 15px;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+GUILD<span>MATCH</span>
+</div>
+
+<button
+class="logout"
+id="logoutBtn">
+LOGOUT
+</button>
+
+</header>
+
+
+<main>
+
+
+<div
+id="loading"
+class="loading">
+
+Loading your guild profile...
+
+</div>
+
+
+<div
+id="dashboard"
+style="display:none;">
+
+
+<div class="welcome">
+
+<h1>
+Welcome,
+<span id="welcomeName">
+Player
+</span>
+</h1>
+
+<p>
+Find another GuildMatch member to play with.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+
+<!-- PROFILE -->
+
+<div class="card">
+
+<h2>
+👤 MY PROFILE
+</h2>
+
+
+<div class="profile">
+
+<div
+class="avatar"
+id="avatar">
+G
+</div>
+
+<div>
+
+<h3 id="playerName">
+Player
+</h3>
+
+<p>
+Guild Member
+</p>
+
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-row">
+
+<span>
+Free Fire UID
+</span>
+
+<span id="playerUID">
+---
+</span>
+
+</div>
+
+
+<div class="info-row">
+
+<span>
+Email
+</span>
+
+<span id="playerEmail">
+---
+</span>
+
+</div>
+
+
+<div class="info-row">
+
+<span>
+Game Mode
+</span>
+
+<span id="playerMode">
+---
+</span>
+
+</div>
+
+
+<div class="info-row">
+
+<span>
+Status
+</span>
+
+<span id="profileStatus">
+ONLINE
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MATCHMAKING -->
+
+<div class="card">
+
+<h2>
+⚡ TEAMMATE FINDER
+</h2>
+
+
+<div class="status-box">
+
+<div>
+
+<span class="status-dot"></span>
+
+<span
+class="status-text">
+ONLINE
+</span>
+
+</div>
+
+<p
+id="statusDescription"
+style="color:#777;margin-top:8px;font-size:13px;">
+
+Ready to find another player.
+
+</p>
+
+</div>
+
+
+<button
+class="match-btn"
+id="matchBtn">
+
+🔎 FIND TEAMMATE
+
+</button>
+
+
+<div
+class="result"
+id="result">
+</div>
+
+
+<!-- WHATSAPP -->
+
+<div class="whatsapp-box">
+
+<h3>
+📱 GUILD WHATSAPP
+</h3>
+
+<p>
+
+Tell other guild members that
+you're looking for a teammate.
+
+</p>
+
+
+<button
+class="whatsapp-btn"
+id="whatsappBtn">
+
+📱 SEND TEAMMATE ALERT
+
+</button>
+
+
+<button
+class="group-btn"
+id="groupBtn">
+
+👥 JOIN GUILD WHATSAPP GROUP
+
+</button>
+
+
+<button
+class="copy-btn"
+id="copyBtn">
+
+📋 COPY ALERT MESSAGE
+
+</button>
+
+</div>
+
+
+<a
+href="index.html"
+class="quick-link">
+
+🏠 Guild Home
+
+</a>
+
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+
+<script type="module">
+
+
+/* FIREBASE */
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+getFirestore,
+doc,
+getDoc,
+updateDoc,
+collection,
+query,
+where,
+limit,
+getDocs,
+onSnapshot,
+serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAXkBpMHSJhVk9QTvoNNCErdERIstEwMJw",
+
+authDomain:
+"guild-match.firebaseapp.com",
+
+projectId:
+"guild-match",
+
+storageBucket:
+"guild-match.firebasestorage.app",
+
+messagingSenderId:
+"180387738600",
+
+appId:
+"1:180387738600:web:7af629bfdc25d6e7b1ea5d",
+
+measurementId:
+"G-ZKQFF91MK7"
+
+};
+
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+
+let currentUser = null;
+
+let playerData = null;
+
+let unsubscribeMatch = null;
+
+
+/*
+================================================
+YOUR WHATSAPP GROUP
+================================================
+*/
+
+const WHATSAPP_GROUP_LINK =
+"https://chat.whatsapp.com/D6LDvPuWd6qBSZyz4qJWYj?s=cl&p=a&ilr=0";
+
+
+/* ELEMENTS */
+
+const loading =
+document.getElementById("loading");
+
+const dashboard =
+document.getElementById("dashboard");
+
+const matchBtn =
+document.getElementById("matchBtn");
+
+const result =
+document.getElementById("result");
+
+
+/* AUTHENTICATION */
+
+onAuthStateChanged(
+
+auth,
+
+async function(user){
+
+if(!user){
+
+window.location.href =
+"auth.html";
+
+return;
+
+}
+
+
+currentUser = user;
+
+
+try{
+
+const playerRef =
+doc(
+db,
+"players",
+user.uid
+);
+
+
+const playerSnap =
+await getDoc(playerRef);
+
+
+if(!playerSnap.exists()){
+
+loading.innerHTML = `
+
+<div class="error-box">
+
+Your GuildMatch profile was not found.
+
+<br><br>
+
+Please register again.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+playerData =
+playerSnap.data();
+
+
+const name =
+playerData.playerName ||
+"Player";
+
+
+document
+.getElementById("welcomeName")
+.textContent = name;
+
+
+document
+.getElementById("playerName")
+.textContent = name;
+
+
+document
+.getElementById("playerUID")
+.textContent =
+playerData.freeFireUID || "---";
+
+
+document
+.getElementById("playerEmail")
+.textContent =
+playerData.email ||
+user.email ||
+"---";
+
+
+document
+.getElementById("playerMode")
+.textContent =
+playerData.preferredMode ||
+"Any";
+
+
+document
+.getElementById("avatar")
+.textContent =
+name.charAt(0).toUpperCase();
+
+
+/* ONLINE */
+
+await updateDoc(
+
+playerRef,
+
+{
+
+online:true,
+
+matchmaking:false,
+
+matchStatus:"online",
+
+lastSeen:
+serverTimestamp()
+
+}
+
+);
+
+
+loading.style.display =
+"none";
+
+dashboard.style.display =
+"block";
+
+
+startMatchListener();
+
+
+}catch(error){
+
+console.error(error);
+
+loading.innerHTML = `
+
+<div class="error-box">
+
+Unable to load your profile.
+
+<br><br>
+
+${escapeHTML(error.message)}
+
+</div>
+
+`;
+
+}
+
+}
+);
+
+
+/* MATCH LISTENER */
+
+function startMatchListener(){
+
+if(!currentUser)
+return;
+
+
+const playerRef =
+doc(
+db,
+"players",
+currentUser.uid
+);
+
+
+unsubscribeMatch =
+onSnapshot(
+
+playerRef,
+
+function(snapshot){
+
+if(!snapshot.exists())
+return;
+
+
+const data =
+snapshot.data();
+
+
+if(
+data.matchedWith &&
+data.matchStatus === "matched"
+){
+
+showMatchedPlayer(
+data.matchedWith
+);
+
+}
+
+}
+
+);
+
+}
+
+
+/* SHOW MATCH */
+
+function showMatchedPlayer(match){
+
+result.style.display =
+"block";
+
+
+result.innerHTML = `
+
+<div style="font-size:35px;">
+🤝
+</div>
+
+<h3 style="margin-top:10px;">
+TEAMMATE FOUND!
+</h3>
+
+<div class="matched-player">
+
+<h3>
+${escapeHTML(
+match.playerName || "Player"
+)}
+</h3>
+
+<p>
+🎮 UID:
+<strong>
+${escapeHTML(
+match.freeFireUID || "---"
+)}
+</strong>
+</p>
+
+<p>
+🎯 Mode:
+${escapeHTML(
+match.preferredMode || "Any"
+)}
+</p>
+
+<div style="color:#35e27b;margin-top:8px;">
+● MATCHED
+</div>
+
+<a
+href="freefire://"
+class="open-game">
+
+🎮 OPEN FREE FIRE
+
+</a>
+
+</div>
+
+`;
+
+
+matchBtn.textContent =
+"MATCH FOUND";
+
+matchBtn.classList.remove(
+"stop"
+);
+
+}
+
+
+/* FIND TEAMMATE */
+
+matchBtn.addEventListener(
+
+"click",
+
+async function(){
+
+if(!currentUser)
+return;
+
+
+const playerRef =
+doc(
+db,
+"players",
+currentUser.uid
+);
+
+
+/* STOP SEARCH */
+
+if(
+matchBtn.textContent.includes("STOP")
+){
+
+try{
+
+await updateDoc(
+
+playerRef,
+
+{
+
+matchmaking:false,
+
+matchStatus:"online"
+
+}
+
+);
+
+
+matchBtn.textContent =
+"🔎 FIND TEAMMATE";
+
+matchBtn.classList.remove(
+"stop"
+);
+
+
+document
+.getElementById(
+"statusDescription"
+)
+.textContent =
+"Ready to find another player.";
+
+
+result.style.display =
+"none";
+
+
+}catch(error){
+
+console.error(error);
+
+}
+
+return;
+
+}
+
+
+matchBtn.disabled =
+true;
+
+matchBtn.textContent =
+"SEARCHING...";
+
+
+result.style.display =
+"block";
+
+
+result.innerHTML = `
+
+<div style="font-size:30px;">
+🔎
+</div>
+
+<strong>
+Searching for a teammate...
+</strong>
+
+<p
+style="color:#777;margin-top:8px;">
+
+Looking for another online
+GuildMatch member.
+
+</p>
+
+`;
+
+
+try{
+
+const myMode =
+playerData.preferredMode ||
+"Any";
+
+
+const playersRef =
+collection(
+db,
+"players"
+);
+
+
+const searchQuery =
+query(
+
+playersRef,
+
+where(
+"online",
+"==",
+true
+),
+
+where(
+"matchmaking",
+"==",
+true
+),
+
+limit(10)
+
+);
+
+
+const snapshot =
+await getDocs(
+searchQuery
+);
+
+
+let opponent = null;
+
+
+snapshot.forEach(
+
+function(playerDoc){
+
+if(
+playerDoc.id !== currentUser.uid &&
+!opponent
+){
+
+const data =
+playerDoc.data();
+
+
+if(
+myMode === "Any" ||
+data.preferredMode === "Any" ||
+data.preferredMode === myMode
+){
+
+opponent = {
+
+id:playerDoc.id,
+
+...data
+
+};
+
+}
+
+}
+
+}
+
+);
+
+
+/* MATCH FOUND */
+
+if(opponent){
+
+const myMatchData = {
+
+playerName:
+opponent.playerName,
+
+freeFireUID:
+opponent.freeFireUID,
+
+preferredMode:
+opponent.preferredMode
+
+};
+
+
+const opponentMatchData = {
+
+playerName:
+playerData.playerName,
+
+freeFireUID:
+playerData.freeFireUID,
+
+preferredMode:
+playerData.preferredMode
+
+};
+
+
+/* CURRENT PLAYER */
+
+await updateDoc(
+
+playerRef,
+
+{
+
+matchmaking:false,
+
+matchStatus:"matched",
+
+matchedWith:
+myMatchData
+
+}
+
+);
+
+
+/* OTHER PLAYER */
+
+await updateDoc(
+
+doc(
+db,
+"players",
+opponent.id
+),
+
+{
+
+matchmaking:false,
+
+matchStatus:"matched",
+
+matchedWith:
+opponentMatchData
+
+}
+
+);
+
+
+showMatchedPlayer(
+myMatchData
+);
+
+
+matchBtn.disabled =
+false;
+
+}
+
+
+/* NO MATCH */
+
+else{
+
+await updateDoc(
+
+playerRef,
+
+{
+
+matchmaking:true,
+
+matchStatus:"searching",
+
+lastSeen:
+serverTimestamp()
+
+}
+
+);
+
+
+result.innerHTML = `
+
+<div style="font-size:30px;">
+🔎
+</div>
+
+<strong>
+You're in the matchmaking queue.
+</strong>
+
+<p
+style="color:#777;margin-top:8px;">
+
+Waiting for another online
+GuildMatch member...
+
+</p>
+
+<div
+style="color:#35e27b;margin-top:10px;">
+
+● SEARCH ACTIVE
+
+</div>
+
+`;
+
+
+matchBtn.disabled =
+false;
+
+matchBtn.textContent =
+"⏹ STOP SEARCH";
+
+matchBtn.classList.add(
+"stop"
+);
+
+
+document
+.getElementById(
+"statusDescription"
+)
+.textContent =
+"You're looking for a teammate.";
+
+}
+
+}catch(error){
+
+console.error(error);
+
+
+result.innerHTML = `
+
+<div style="color:#ff6868;">
+
+❌ Matchmaking error
+
+</div>
+
+<p
+style="color:#888;margin-top:8px;">
+
+${escapeHTML(error.message)}
+
+</p>
+
+`;
+
+
+matchBtn.disabled =
+false;
+
+matchBtn.textContent =
+"🔎 FIND TEAMMATE";
+
+}
+
+}
+);
+
+
+/* CREATE WHATSAPP MESSAGE */
+
+function createWhatsAppMessage(){
+
+if(!playerData)
+return "";
+
+
+const name =
+playerData.playerName ||
+"Player";
+
+
+const uid =
+playerData.freeFireUID ||
+"Not provided";
+
+
+const mode =
+playerData.preferredMode ||
+"Any Mode";
+
+
+return (
+
+"🎮 GUILDMATCH ALERT\n\n" +
+
+"👤 Player: " +
+name +
+
+"\n🆔 Free Fire UID: " +
+uid +
+
+"\n🎯 Mode: " +
+mode +
+
+"\n\n" +
+
+"🔥 This player is looking for a teammate now!\n\n" +
+
+"Reply if you want to play together.\n\n" +
+
+"GuildMatch"
+
+);
+
+}
+
+
+/* WHATSAPP ALERT */
+
+document
+.getElementById("whatsappBtn")
+.addEventListener(
+
+"click",
+
+function(){
+
+const text =
+createWhatsAppMessage();
+
+
+if(!text){
+
+alert(
+"Your player information is not loaded yet."
+);
+
+return;
+
+}
+
+
+const encoded =
+encodeURIComponent(text);
+
+
+const whatsappURL =
+"https://wa.me/?text=" +
+encoded;
+
+
+window.open(
+whatsappURL,
+"_blank"
+);
+
+}
+);
+
+
+/* JOIN GROUP */
+
+document
+.getElementById("groupBtn")
+.addEventListener(
+
+"click",
+
+function(){
+
+window.open(
+WHATSAPP_GROUP_LINK,
+"_blank"
+);
+
+}
+);
+
+
+/* COPY ALERT */
+
+document
+.getElementById("copyBtn")
+.addEventListener(
+
+"click",
+
+async function(){
+
+const text =
+createWhatsAppMessage();
+
+
+if(!text){
+
+alert(
+"Your player information is not loaded yet."
+);
+
+return;
+
+}
+
+
+try{
+
+await navigator.clipboard.writeText(
+text
+);
+
+
+this.textContent =
+"✅ COPIED!";
+
+
+setTimeout(
+
+()=>{
+
+this.textContent =
+"📋 COPY ALERT MESSAGE";
+
+},
+
+1500
+
+);
+
+}catch(error){
+
+alert(
+"Copy failed. Please copy the message manually."
+);
+
+}
+
+}
+);
+
+
+/* LOGOUT */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+
+"click",
+
+async function(){
+
+try{
+
+if(currentUser){
+
+await updateDoc(
+
+doc(
+db,
+"players",
+currentUser.uid
+),
+
+{
+
+online:false,
+
+matchmaking:false,
+
+matchStatus:"offline",
+
+lastSeen:
+serverTimestamp()
+
+}
+
+);
+
+}
+
+
+if(unsubscribeMatch){
+
+unsubscribeMatch();
+
+}
+
+
+await signOut(auth);
+
+
+window.location.href =
+"auth.html";
+
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+);
+
+
+/* SECURITY */
+
+function escapeHTML(value){
+
+return String(value)
+
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+
+</html>

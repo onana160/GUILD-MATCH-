@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>GuildMatch | Login</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,179,0,0.12), transparent 35%),
+        #070914;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 25px;
+    }
+
+    .logo span {
+      color: #ffb300;
+    }
+
+    .auth-card {
+      background: #101321;
+      border: 1px solid #252b3d;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+    }
+
+    .auth-card h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #080a12;
+      padding: 5px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .tab {
+      padding: 12px;
+      border: none;
+      background: transparent;
+      color: #777;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tab.active {
+      background: #ffb300;
+      color: #111;
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      color: #ccc;
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      background: #080a12;
+      color: white;
+      border: 1px solid #292f42;
+      border-radius: 9px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #ffb300;
+    }
+
+    .main-btn {
+      width: 100%;
+      padding: 15px;
+      background: #ffb300;
+      border: none;
+      border-radius: 9px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .main-btn:hover {
+      background: #ffc333;
+    }
+
+    .main-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 13px;
+      background: #080a12;
+      line-height: 1.5;
+    }
+
+    .success {
+      color: #35e27b;
+    }
+
+    .error {
+      color: #ff6868;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #888;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .back:hover {
+      color: #ffb300;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 12px;
+      border-left: 3px solid #ffb300;
+      background: rgba(255,179,0,0.05);
+      color: #888;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-container">
+
+    <div class="logo">
+      GUILD<span>MATCH</span>
+    </div>
+
+    <div class="auth-card">
+
+      <h1>Welcome</h1>
+
+      <p class="subtitle">
+        Sign in or create your GuildMatch player account.
+      </p>
+
+      <div class="tabs">
+
+        <button
+          class="tab active"
+          id="loginTab"
+          onclick="showLogin()">
+          LOGIN
+        </button>
+
+        <button
+          class="tab"
+          id="registerTab"
+          onclick="showRegister()">
+          REGISTER
+        </button>
+
+      </div>
+
+
+      <!-- LOGIN -->
+
+      <form
+        id="loginForm"
+        class="form active">
+
+        <div class="input-group">
+
+          <label>Email</label>
+
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="Enter your email"
+            required>
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label>Password</label>
+
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Enter your password"
+            required>
+
+        </div>
+
+
+        <button
+          class="main-btn"
+          id="loginButton"
+          type="submit">
+
+          LOGIN
+
+        </button>
+
+      </form>
+
+
+      <!-- REGISTER -->
+
+      <form
+        id="registerForm"
+        class="form">
+
+        <div class="input-group">
+
+          <label>Player Name</label>
+
+          <input
+            type="text"
+            id="registerName"
+            placeholder="Your Free Fire name"
+            required>
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label>Free Fire UID</label>
+
+          <input
+            type="text"
+            id="registerUID"
+            inputmode="numeric"
+            placeholder="Your Free Fire UID"
+            required>
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label>Email</label>
+
+          <input
+            type="email"
+            id="registerEmail"
+            placeholder="Enter your email"
+            required>
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label>Password</label>
+
+          <input
+            type="password"
+            id="registerPassword"
+            placeholder="Create a password"
+            minlength="6"
+            required>
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label>Preferred Mode</label>
+
+          <select id="registerMode">
+
+            <option value="Any">
+              Any Mode
+            </option>
+
+            <option value="BR">
+              Battle Royale
+            </option>
+
+            <option value="CS">
+              Clash Squad
+            </option>
+
+            <option value="Ranked">
+              Ranked
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <button
+          class="main-btn"
+          id="registerButton"
+          type="submit">
+
+          CREATE ACCOUNT
+
+        </button>
+
+      </form>
+
+
+      <div id="message" class="message"></div>
+
+
+      <div class="note">
+        🔐 Your account is protected by Firebase Authentication.
+        Player information is stored in Firestore.
+      </div>
+
+
+      <a href="index.html" class="back">
+        ← Back to GuildMatch
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- FIREBASE -->
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+    /* FIREBASE CONFIG */
+
+    const firebaseConfig = {
+
+      apiKey: "AIzaSyAXkBpMHSJhVk9QTvoNNCErdERIstEwMJw",
+
+      authDomain: "guild-match.firebaseapp.com",
+
+      projectId: "guild-match",
+
+      storageBucket: "guild-match.firebasestorage.app",
+
+      messagingSenderId: "180387738600",
+
+      appId: "1:180387738600:web:7af629bfdc25d6e7b1ea5d",
+
+      measurementId: "G-ZKQFF91MK7"
+
+    };
+
+
+    /* INITIALIZE FIREBASE */
+
+    const app =
+      initializeApp(firebaseConfig);
+
+
+    const auth =
+      getAuth(app);
+
+
+    const db =
+      getFirestore(app);
+
+
+    /* MESSAGE FUNCTION */
+
+    function showMessage(text, type) {
+
+      const message =
+        document.getElementById("message");
+
+      message.style.display = "block";
+
+      message.textContent = text;
+
+      message.className =
+        "message " + type;
+
+    }
+
+
+    function clearMessage() {
+
+      const message =
+        document.getElementById("message");
+
+      message.style.display = "none";
+
+      message.textContent = "";
+
+    }
+
+
+    /* TABS */
+
+    window.showLogin = function() {
+
+      document
+        .getElementById("loginForm")
+        .classList.add("active");
+
+      document
+        .getElementById("registerForm")
+        .classList.remove("active");
+
+
+      document
+        .getElementById("loginTab")
+        .classList.add("active");
+
+      document
+        .getElementById("registerTab")
+        .classList.remove("active");
+
+
+      clearMessage();
+
+    };
+
+
+    window.showRegister = function() {
+
+      document
+        .getElementById("registerForm")
+        .classList.add("active");
+
+      document
+        .getElementById("loginForm")
+        .classList.remove("active");
+
+
+      document
+        .getElementById("registerTab")
+        .classList.add("active");
+
+      document
+        .getElementById("loginTab")
+        .classList.remove("active");
+
+
+      clearMessage();
+
+    };
+
+
+    /* REGISTER */
+
+    document
+      .getElementById("registerForm")
+      .addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+
+        const name =
+          document
+            .getElementById("registerName")
+            .value
+            .trim();
+
+
+        const uid =
+          document
+            .getElementById("registerUID")
+            .value
+            .trim();
+
+
+        const email =
+          document
+            .getElementById("registerEmail")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("registerPassword")
+            .value;
+
+
+        const mode =
+          document
+            .getElementById("registerMode")
+            .value;
+
+
+        const button =
+          document.getElementById("registerButton");
+
+
+        if (!name || !uid || !email || !password) {
+
+          showMessage(
+            "Please complete all the fields.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        button.disabled = true;
+
+        button.textContent =
+          "CREATING ACCOUNT...";
+
+
+        try {
+
+          /* CREATE FIREBASE ACCOUNT */
+
+          const userCredential =
+            await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
+
+          const user =
+            userCredential.user;
+
+
+          /* SAVE PLAYER PROFILE */
+
+          await setDoc(
+            doc(db, "players", user.uid),
+            {
+
+              playerName: name,
+
+              freeFireUID: uid,
+
+              email: email,
+
+              preferredMode: mode,
+
+              online: true,
+
+              matchmaking: false,
+
+              createdAt: serverTimestamp()
+
+            }
+          );
+
+
+          showMessage(
+            "Account created successfully! Your player profile has been saved.",
+            "success"
+          );
+
+
+          document
+            .getElementById("registerForm")
+            .reset();
+
+
+          setTimeout(function() {
+
+            window.location.href =
+              "index.html";
+
+          }, 1800);
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          let message =
+            "Registration failed.";
+
+
+          if (
+            error.code ===
+            "auth/email-already-in-use"
+          ) {
+
+            message =
+              "This email is already registered.";
+
+          }
+
+          else if (
+            error.code ===
+            "auth/weak-password"
+          ) {
+
+            message =
+              "Password should contain at least 6 characters.";
+
+          }
+
+          else if (
+            error.code ===
+            "auth/invalid-email"
+          ) {
+
+            message =
+              "Please enter a valid email address.";
+
+          }
+
+          else {
+
+            message =
+              error.message;
+
+          }
+
+
+          showMessage(
+            message,
+            "error"
+          );
+
+
+        } finally {
+
+          button.disabled = false;
+
+          button.textContent =
+            "CREATE ACCOUNT";
+
+        }
+
+      });
+
+
+    /* LOGIN */
+
+    document
+      .getElementById("loginForm")
+      .addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+          document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("loginPassword")
+            .value;
+
+
+        const button =
+          document.getElementById("loginButton");
+
+
+        button.disabled = true;
+
+        button.textContent =
+          "LOGGING IN...";
+
+
+        try {
+
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+          showMessage(
+            "Login successful! Welcome back.",
+            "success"
+          );
+
+
+          setTimeout(function() {
+
+            window.location.href =
+              "index.html";
+
+          }, 1200);
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          let message =
+            "Login failed.";
+
+
+          if (
+            error.code ===
+            "auth/invalid-credential"
+          ) {
+
+            message =
+              "Incorrect email or password.";
+
+          }
+
+          else if (
+            error.code ===
+            "auth/user-not-found"
+          ) {
+
+            message =
+              "No account was found with this email.";
+
+          }
+
+          else if (
+            error.code ===
+            "auth/wrong-password"
+          ) {
+
+            message =
+              "Incorrect password.";
+
+          }
+
+          else {
+
+            message =
+              error.message;
+
+          }
+
+
+          showMessage(
+            message,
+            "error"
+          );
+
+
+        } finally {
+
+          button.disabled = false;
+
+          button.textContent =
+            "LOGIN";
+
+        }
+
+      });
+
+  </script>
+
+</body>
+</html>
